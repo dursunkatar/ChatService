@@ -6,7 +6,10 @@ namespace server
     {
         static void Main(string[] args)
         {
-            
+            SocketListen.Listen(991);
+
+            Console.ReadKey(true);
         }
     }
 }
+
