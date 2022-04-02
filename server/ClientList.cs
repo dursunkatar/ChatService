@@ -18,14 +18,14 @@ namespace server
         /// Gelen Bağlantıyı Listeye Ekler
         /// </summary>
         /// <param name="client"></param>
-        public static string AddClient(TcpClient client)
+        public static ClientSocket AddTcpClient(TcpClient tcpClient)
         {
             string clientId = Utility.RandomClientId();
             lock (obj)
             {
-                clients.Add(clientId, new StreamWriter(client.GetStream()));
+                clients.Add(clientId, new StreamWriter(tcpClient.GetStream()));
             }
-            return clientId;
+            return new ClientSocket(clientId, tcpClient);
         }
 
 

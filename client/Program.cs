@@ -9,17 +9,31 @@ namespace client
     {
         static async Task Main(string[] args)
         {
-            TcpClient tcpClient = new TcpClient("10.48.48.50", 991);
+            ClientSocket clientSocket = new();
 
-            var clientSocketManager = new ClientSocketManager(tcpClient);
-
-            clientSocketManager.StartReceiveMessage();
-
-            for (; ; )
+            try
             {
-                string message = Console.ReadLine();
-                await clientSocketManager.SendMessageAsync(message);
+                await clientSocket.ConnectAsyc("127.0.0.1", 1453);
+                Console.WriteLine("Connected :)");
+
+                _ = clientSocket.StartReceiveMessageAsync(msg => Console.WriteLine("Received: " + msg));
+
+                do
+                {
+                    string message = Console.ReadLine();
+                    await clientSocket.SendMessageAsync(message);
+
+                } while (true);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                clientSocket.Dispose();
+            }
+
         }
     }
 }

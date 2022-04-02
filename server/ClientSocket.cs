@@ -29,7 +29,6 @@ namespace server
                     if (_tcpClient.Client.Available > 0)
                     {
                         var message = await streamReader.ReadLineAsync();
-                        Console.WriteLine(message);
                         await ClientList.SendMessageAllClientsAsync(_clientId, message);
                     }
                 }
