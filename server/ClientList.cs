@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Sockets;
 
 namespace server
@@ -13,22 +12,23 @@ namespace server
         {
             clients = new();
         }
-        public static ClientSocket Add(TcpClient tcpClient)
+        public static ClientManager Add(TcpClient tcpClient)
         {
-            string clientId = Utility.RandomClientId();
+            var client = new Client(tcpClient);
             lock (obj)
             {
-                clients.Add(new Client(clientId, new StreamWriter(tcpClient.GetStream())));
+                clients.Add(client);
             }
-            return new ClientSocket(clientId, tcpClient);
+            return new ClientManager(client);
         }
-        public static void ForEach(string clientId, Action<Client> callback)
+
+        public static void ForEach(Client currentClient, Action<Client> callback)
         {
             lock (obj)
             {
                 foreach (var client in clients)
                 {
-                    if (client.ClientId != clientId && client.IsConnected)
+                    if (client != currentClient && client.IsConnected)
                     {
                         callback(client);
                     }

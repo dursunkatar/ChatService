@@ -19,9 +19,9 @@ namespace server
             {
                 var tcpClient = await server.AcceptTcpClientAsync();
 
-                var clientSocket = ClientList.Add(tcpClient);
+                var clientManager = ClientList.Add(tcpClient);
 
-                _ = clientSocket.StartReceiveMessageAsync();
+                _ = clientManager.StartReceiveMessageAsync();
 
             } while (true);
 

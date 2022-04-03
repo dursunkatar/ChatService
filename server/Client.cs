@@ -1,28 +1,19 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace server
 {
     internal class Client
     {
-        public string ClientId { get; private set; }
-        public StreamWriter Writer { get; private set; }
-        public bool IsConnected { get; private set; } = true;
-
-        public Client(string clientId, StreamWriter writer)
+        public StreamWriter StreamWriter { get; private set; }
+        public StreamReader StreamReader { get; private set; }
+        public NetworkStream NetworkStream { get; private set; }
+        public bool IsConnected { get; set; } = true;
+        public Client(TcpClient tcpClient)
         {
-            ClientId = clientId;
-            Writer = writer;
-        }
-
-        public async Task SendMessageAsync(string message)
-        {
-            try
-            {
-                await Writer.WriteLineAsync(message);
-                await Writer.FlushAsync();
-            }
-            catch { IsConnected = false; }
+            NetworkStream = tcpClient.GetStream();
+            StreamWriter = new StreamWriter(NetworkStream);
+            StreamReader = new StreamReader(NetworkStream);
         }
     }
 }
