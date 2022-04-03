@@ -1,10 +1,10 @@
-﻿using server.Managers;
+﻿using System;
 using server.Models;
-using System;
-using System.Collections.Generic;
+using server.Managers;
 using System.Net.Sockets;
+using System.Collections.Generic;
 
-namespace server
+namespace server.Lists
 {
     internal static class ClientList
     {

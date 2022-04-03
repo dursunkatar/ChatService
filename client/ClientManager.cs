@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace client
 {
-    internal class ClientSocket : IDisposable
+    internal class ClientManager : IDisposable
     {
 
         private NetworkStream _networkStream;
@@ -13,7 +13,7 @@ namespace client
         private StreamReader _streamReader;
         private readonly TcpClient _tcpClient;
 
-        public ClientSocket()
+        public ClientManager()
         {
             _tcpClient = new();
         }
@@ -50,6 +50,5 @@ namespace client
         {
             _tcpClient.Dispose();
         }
-
     }
 }

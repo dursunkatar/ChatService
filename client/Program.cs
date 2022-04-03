@@ -7,19 +7,19 @@ namespace client
     {
         static async Task Main(string[] args)
         {
-            ClientSocket clientSocket = new();
+            ClientManager clientManager = new();
 
             try
             {
-                await clientSocket.ConnectAsyc("127.0.0.1", 1453);
-                Console.WriteLine("Connected :)");
+                await clientManager.ConnectAsyc("127.0.0.1", 1453);
+                Console.WriteLine("Connected =)" + Environment.NewLine);
 
-                _ = clientSocket.StartReceiveMessageAsync(msg => Console.WriteLine("Received: " + msg));
+                _ = clientManager.StartReceiveMessageAsync(msg => Console.WriteLine("Received: " + msg));
 
                 do
                 {
                     string message = Console.ReadLine();
-                    await clientSocket.SendMessageAsync(message);
+                    await clientManager.SendMessageAsync(message);
 
                 } while (true);
             }
@@ -29,7 +29,7 @@ namespace client
             }
             finally
             {
-                clientSocket.Dispose();
+                clientManager.Dispose();
             }
 
         }
