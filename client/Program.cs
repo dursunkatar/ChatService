@@ -12,9 +12,9 @@ namespace client
             try
             {
                 await clientManager.ConnectAsyc("127.0.0.1", 1453);
-                Console.WriteLine("Connected =)" + Environment.NewLine);
+                Console.WriteLine("Bağlandı =)" + Environment.NewLine);
 
-                _ = clientManager.StartReceiveMessageAsync(msg => Console.WriteLine("Received: " + msg));
+                _ = clientManager.StartReceiveMessageAsync(msg => Console.WriteLine("Gelen: " + msg));
 
                 do
                 {

@@ -36,6 +36,7 @@ namespace client
             do
             {
                 var message = await _streamReader.ReadLineAsync();
+                if (message == null) break;
                 callback(message);
             } while (_networkStream.CanRead);
         }

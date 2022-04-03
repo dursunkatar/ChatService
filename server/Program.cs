@@ -13,7 +13,7 @@ namespace server
                     .AddLogger(new FtpLogger())
                     .Start(1453);
 
-            Console.WriteLine("Port 1453 listening...");
+            Console.WriteLine("1453 numaralı port dinleniyor...");
 
             Console.ReadKey(true);
         }
