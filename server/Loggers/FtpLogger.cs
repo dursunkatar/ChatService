@@ -1,7 +1,7 @@
 ﻿using System;
 namespace server.Loggers
 {
-    internal class FtpLogger : ILogger
+    public class FtpLogger : ILogger
     {
         public void Log(string message)
         {

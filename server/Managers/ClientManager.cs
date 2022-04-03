@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace server.Managers
 {
-    internal class ClientManager
+    public class ClientManager
     {
         private readonly Client _client;
         public ClientManager(Client client)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace client
 {
-    internal class ClientManager : IDisposable
+    public class ClientManager : IDisposable
     {
 
         private NetworkStream _networkStream;

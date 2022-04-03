@@ -1,7 +1,7 @@
 ﻿using System;
 namespace server.Loggers
 {
-    internal class FileLogger : ILogger
+    public class FileLogger : ILogger
     {
         public void Log(string message)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    internal class TcpListenManager
+    public class TcpListenManager
     {
         private readonly List<ILogger> loggers;
 

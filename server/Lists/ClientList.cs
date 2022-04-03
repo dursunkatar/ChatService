@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace server.Lists
 {
-    internal static class ClientList
+    public static class ClientList
     {
         private static readonly List<Client> clients;
         static ClientList()

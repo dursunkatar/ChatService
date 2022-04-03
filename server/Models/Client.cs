@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace server.Models
 {
-    internal class Client
+    public class Client
     {
         public bool IsConnected { get; set; } = true;
         public bool IsMessageLimitExpired { get; set; }
