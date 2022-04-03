@@ -1,4 +1,5 @@
-﻿using System;
+﻿using server.Loggers;
+using System;
 
 namespace server
 {
@@ -6,7 +7,11 @@ namespace server
     {
         static void Main(string[] args)
         {
-            ListenSocket.Start(1453);
+            TcpListenManager listener = new();
+
+            listener.AddLogger(new FileLogger())
+                    .AddLogger(new FtpLogger())
+                    .Start(1453);
 
             Console.WriteLine("Port 1453 listening...");
 

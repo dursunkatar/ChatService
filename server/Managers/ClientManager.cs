@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using server.Loggers;
+using server.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace server
+namespace server.Managers
 {
     internal class ClientManager
     {
@@ -11,12 +14,13 @@ namespace server
             _client = client;
         }
 
-        public async Task StartReceiveMessageAsync()
+        public async Task StartReceiveMessageAsync(List<ILogger> loggers)
         {
             do
             {
                 var message = await _client.StreamReader.ReadLineAsync();
                 SendMessageAllClients(message);
+                loggers.ForEach(logger => logger.Log(message));
 
             } while (_client.NetworkStream.CanRead);
         }

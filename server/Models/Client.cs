@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net.Sockets;
 
-namespace server
+namespace server.Models
 {
     internal class Client
     {
