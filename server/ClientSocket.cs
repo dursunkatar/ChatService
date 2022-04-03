@@ -31,14 +31,7 @@ namespace server
 
         private void SendMessageAllClients(string message)
         {
-            ClientList.ForEach(_clientId, async client =>
-            {
-                try
-                {
-                    await client.SendMessageAsync(message);
-                }
-                catch { ClientList.DisableClient(client); }
-            });
+            ClientList.ForEach(_clientId, async client => await client.SendMessageAsync(message));
         }
     }
 }

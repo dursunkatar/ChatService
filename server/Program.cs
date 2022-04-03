@@ -8,6 +8,8 @@ namespace server
         {
             ListenSocket.Start(1453);
 
+            Console.WriteLine("Port 1453 listening...");
+
             Console.ReadKey(true);
         }
     }

@@ -22,15 +22,6 @@ namespace server
             }
             return new ClientSocket(clientId, tcpClient);
         }
-
-        public static void DisableClient(Client client)
-        {
-            lock (obj)
-            {
-                client.IsConnected = false;
-            }
-        }
-
         public static void ForEach(string clientId, Action<Client> callback)
         {
             lock (obj)
