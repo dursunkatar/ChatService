@@ -25,8 +25,11 @@ namespace server.Managers
                 await client.StreamWriter.WriteLineAsync(message);
                 await client.StreamWriter.FlushAsync();
             }
-            catch { client.IsConnected = false; }
-
+            catch
+            {
+                client.IsConnected = false;
+                client.TcpClient.Dispose();
+            }
         }
         public async Task StartReceiveMessageAsync(List<ILogger> loggers)
         {

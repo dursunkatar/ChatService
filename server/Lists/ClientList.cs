@@ -18,17 +18,14 @@ namespace server.Lists
             var client = new Client(tcpClient);
             clients.Add(client);
             return new ClientManager(client);
-
         }
+
         public static void ForEach(Client currentClient, Action<Client> callback)
         {
-            foreach (var client in clients)
-            {
+            clients.ForEach(client => {
                 if (client != currentClient && client.IsConnected)
-                {
                     callback(client);
-                }
-            }
+             });
         }
     }
 }
