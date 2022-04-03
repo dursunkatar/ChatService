@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,24 +16,29 @@ namespace server
             _tcpClient = tcpClient;
         }
 
-        public void StartReceiveMessage()
+        public async Task StartReceiveMessageAsync()
         {
             var networkStream = _tcpClient.GetStream();
             var streamReader = new StreamReader(networkStream, Encoding.UTF8);
 
-            Task task = new Task(async () =>
+            do
             {
-                while (networkStream.CanRead)
-                {
-                    if (_tcpClient.Client.Available > 0)
-                    {
-                        var message = await streamReader.ReadLineAsync();
-                        await ClientList.SendMessageAllClientsAsync(_clientId, message);
-                    }
-                }
-            });
-            task.Start();
+                var message = await streamReader.ReadLineAsync();
+                SendMessageAllClients(message);
+
+            } while (networkStream.CanRead);
         }
 
+        private void SendMessageAllClients(string message)
+        {
+            ClientList.ForEach(_clientId, async client =>
+            {
+                try
+                {
+                    await client.SendMessageAsync(message);
+                }
+                catch { ClientList.DisableClient(client); }
+            });
+        }
     }
 }

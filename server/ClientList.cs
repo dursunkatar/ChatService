@@ -1,49 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace server
 {
     internal static class ClientList
     {
         private static volatile object obj = new object();
-        private static readonly Dictionary<string, StreamWriter> clients;
+        private static readonly List<Client> clients;
         static ClientList()
         {
             clients = new();
         }
-
-        /// <summary>
-        /// Gelen Bağlantıyı Listeye Ekler
-        /// </summary>
-        /// <param name="client"></param>
-        public static ClientSocket AddTcpClient(TcpClient tcpClient)
+        public static ClientSocket Add(TcpClient tcpClient)
         {
             string clientId = Utility.RandomClientId();
             lock (obj)
             {
-                clients.Add(clientId, new StreamWriter(tcpClient.GetStream()));
+                clients.Add(new Client(clientId, new StreamWriter(tcpClient.GetStream())));
             }
             return new ClientSocket(clientId, tcpClient);
         }
 
-
-
-        /// <summary>
-        /// Bütün Client'lere gelen mesajı iletir
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static async Task SendMessageAllClientsAsync(string clientId, string message)
+        public static void DisableClient(Client client)
         {
-            foreach (var client in clients)
+            lock (obj)
             {
-                if (client.Key != clientId)
+                client.IsConnected = false;
+            }
+        }
+
+        public static void ForEach(string clientId, Action<Client> callback)
+        {
+            lock (obj)
+            {
+                foreach (var client in clients)
                 {
-                    await client.Value.WriteLineAsync(message);
-                    await client.Value.FlushAsync();
+                    if (client.ClientId != clientId && client.IsConnected)
+                    {
+                        callback(client);
+                    }
                 }
             }
         }
